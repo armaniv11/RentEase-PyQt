@@ -1,6 +1,7 @@
 
 
 
+from os import rename
 import sys
 import platform
 from xmlrpc.client import DateTime
@@ -14,6 +15,7 @@ from PyQt5.QtGui import QIcon, QPixmap
 from datetime import datetime
 
 import qtawesome
+from appConstants import AppConstants
 from due_paid_rentui import Ui_DuePaidRent
 from PyQt5.QtGui import QPainter
 from PyQt5.QtPrintSupport import QPrinter
@@ -37,10 +39,13 @@ class DuePaidRent(QDialog,Ui_DuePaidRent):
         self.onlyfloat = QtGui.QDoubleValidator()
         self.siteid = ''
         self.startMonth = 'June'
-        self.startYear = '2022'
+        self.startYear = 2022
         self.currentMonth = ''
         self.currentYear = ''
-        self.months = ['January','February','March','April','May','June','July','August','September','October','November','December']
+        # self.monthsMap = {}
+        self.monthsList = ['JANUARY','FEBRUARY','MARCH','APRIL','MAY','JUNE','JULY','AUGUST','SEPTEMBER','OCTOBER','NOVEMBER','DECEMBER']
+        self.monthsMap = {'JANUARY':'01','FEBRUARY':'02','MARCH':'03','APRIL':'04','MAY':'05','JUNE':'06','JULY':'07','AUGUST':'08','SEPTEMBER':'09','OCTOBER':'10','NOVEMBER':'11','DECEMBER':'12'}
+        
         self.pushButton_13.clicked.connect(self.rentRecord)
         header = self.tableWidget.horizontalHeader()
         header.setSectionResizeMode(1,QtWidgets.QHeaderView.ResizeToContents)
@@ -166,31 +171,131 @@ class DuePaidRent(QDialog,Ui_DuePaidRent):
 
     def search(self,value):
         print(value)
-        conn = sqlite3.connect("details.db")
-        cursor = conn.cursor()
-        cursor.execute("SELECT ledger.transid,ledger.date,(CASE WHEN newsite.sitename is null THEN '' ELSE newsite.sitename END),\
-            newparty.partyname,transtype,material,value,transport,debit,credit from ledger LEFT JOIN newparty ON \
-                ledger.partyid = newparty.partyid LEFT JOIN newsite ON ledger.siteid = newsite.siteid where (ledger.transtype!='CASH' AND ledger.transtype!='BANK' AND \
-                    ledger.transtype!='PURCHASE TOTAL' and newparty.partyname like ?)",(value+'%',))
-        result = cursor.fetchall()
-        conn.close()
-        self.tableshow(result)
+        # conn = sqlite3.connect("details.db")
+        # cursor = conn.cursor()
+        # cursor.execute("SELECT ledger.transid,ledger.date,(CASE WHEN newsite.sitename is null THEN '' ELSE newsite.sitename END),\
+        #     newparty.partyname,transtype,material,value,transport,debit,credit from ledger LEFT JOIN newparty ON \
+        #         ledger.partyid = newparty.partyid LEFT JOIN newsite ON ledger.siteid = newsite.siteid where (ledger.transtype!='CASH' AND ledger.transtype!='BANK' AND \
+        #             ledger.transtype!='PURCHASE TOTAL' and newparty.partyname like ?)",(value+'%',))
+        # result = cursor.fetchall()
+        # conn.close()
+        # self.tableshow(result)
 
         
         
 
 
     def rentRecord(self):
-         
+        print("printing current Month")
+
+        partydict = SharedClasses().partyDict
+
         conn = sqlite3.connect("details.db")
         c = conn.cursor()
-        c.execute("SELECT id,newparty.partyname,chqnumber,chqdate,\
-            remark,rentreceivedate,rentreceive from rentledger LEFT JOIN newparty ON \
-                rentledger.partyid = newparty.partyid order by id desc")
-        result = c.fetchall()
-        self.tableshow(result)
+
+        # list of due rents
+        dueRents = []
+        # print(AppConstants.CURRENTYEAR)
+        # while ()
+        # print(SharedClasses().partyDict)
+        for party in partydict:
+            print(party)
+            # Starting Year Check
+            self.startYear = AppConstants.STARTYEAR
+
+            while self.startYear<=AppConstants.CURRENTYEAR:
+                print(f"prinitng month and year {self.startYear}")
+                # print()
+                # print(AppConstants.CURRENTYEAR)
+
+
+                if self.startYear < AppConstants.CURRENTYEAR:
+                    startMonthIndex = 0
+                    lastMonthIndex = 12
+                   
+                else:
+                    startMonthIndex = self.monthsMap[AppConstants.STARTMONTH]
+                    lastMonthIndex = AppConstants.CURRENTMONTH
+                    
+
+                print("Printing index")
+                print(startMonthIndex)
+                print(lastMonthIndex)
+                # return
+                paidMonths = self.findMonthRent(partydict[party])
+                findMonths = []
+                for i in range(int(startMonthIndex),lastMonthIndex - 1):
+                    findMonths.append(int(i))
+                print(findMonths)
+                paidMonthsIndex = []
+                for i in paidMonths:
+                    for j in i:
+                        print(j)
+                        paidMonthsIndex.append(int(self.monthsMap[j]))
+                print("printing paidmonthsindex")
+                print(paidMonthsIndex)
+                unpaidMonthsIndex =  [x for x in findMonths if x not in paidMonthsIndex]
+                print("printing unpaid months")
+                print(unpaidMonthsIndex)
+                c.execute("SELECT partyid,partyname,paddress,rent from newparty where partyname=?",(party,))
+                result = c.fetchone()
+                initialResult = list(result)
+                
+                for unpaid in unpaidMonthsIndex:
+                    listResult = []
+                    listResult =  listResult + initialResult
+                    # listResult = initialResult
+                    print("poriting initial result")
+                    print(initialResult)
+                    print(listResult)
+                    print(self.monthsList[unpaid])
+                    listResult.append(self.monthsList[unpaid])
+                    dueRents.append(listResult)
+                    # listResult = []
+                
+                print(dueRents)
+
+                
+
+
+
+                # print(findMonths)
+                # return
+                # for i in self.monthsList:
+                #     print(f"PRINTING {i}")
+
+                #     if self.monthsMap[str(i[0])] in findMonths:
+
+                #         print("FoUND")
+                #     else:
+                #         print("Not Found")
+
+                
+                # print(paidMonths)
+
+
+
+                # print(startMonthIndex)
+                self.startYear = self.startYear + 1
+                
+
+
+            # print(j)
+        
+         
+        
+        
+        self.tableshow(dueRents)
 
         conn.close()
+
+    def findMonthRent(self,partyId):
+        conn = sqlite3.connect("details.db")
+        c = conn.cursor()
+        c.execute("SELECT distinct rentMonth from rentledger where partyid = ?",(partyId,))
+        result = c.fetchall()
+        return result
+
     def tableshow(self,result):
         self.tableWidget.setRowCount(0)
         j = 0

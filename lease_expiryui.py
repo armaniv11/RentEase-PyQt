@@ -58,6 +58,14 @@ class Ui_LeaseExpiry(object):
         self.pushButton_9.setObjectName("pushButton_9")
         self.horizontalLayout.addWidget(self.pushButton_9)
         self.gridLayout_2.addWidget(self.frame_5, 1, 0, 1, 1)
+        self.label = QtWidgets.QLabel(self.frame)
+        self.label.setStyleSheet("border:none;\n"
+"color: rgb(91, 91, 91);\n"
+"font: 87 16pt \"Arial Black\";\n"
+"padding-left:20;\n"
+"")
+        self.label.setObjectName("label")
+        self.gridLayout_2.addWidget(self.label, 0, 0, 1, 2)
         self.frame_3 = QtWidgets.QFrame(self.frame)
         self.frame_3.setMaximumSize(QtCore.QSize(300, 16777215))
         self.frame_3.setStyleSheet("background-color: rgb(0, 85, 127);\n"
@@ -97,58 +105,6 @@ class Ui_LeaseExpiry(object):
         self.progressBar.setObjectName("progressBar")
         self.verticalLayout_2.addWidget(self.progressBar)
         self.gridLayout_2.addWidget(self.frame_3, 2, 0, 1, 1)
-        self.pushButton = QtWidgets.QPushButton(self.frame)
-        self.pushButton.setMinimumSize(QtCore.QSize(45, 45))
-        self.pushButton.setMaximumSize(QtCore.QSize(45, 45))
-        self.pushButton.setStyleSheet("QPushButton{\n"
-"background-color: rgb(255, 130, 80);\n"
-"color: rgb(255, 255, 255);\n"
-"font: 87 10pt \"Arial Black\";\n"
-"border:2px solid grey;}\n"
-"QPushButton:hover{\n"
-"background-color: rgb(0, 85, 127);\n"
-"border:2px solid white;}")
-        self.pushButton.setFlat(False)
-        self.pushButton.setObjectName("pushButton")
-        self.gridLayout_2.addWidget(self.pushButton, 0, 3, 1, 1)
-        self.frame_4 = QtWidgets.QFrame(self.frame)
-        self.frame_4.setStyleSheet("background-color: rgb(0, 85, 127);\n"
-"color: rgb(255, 85, 127);\n"
-"border:2px solig grey;\n"
-"border-radius:8;")
-        self.frame_4.setFrameShape(QtWidgets.QFrame.Box)
-        self.frame_4.setFrameShadow(QtWidgets.QFrame.Plain)
-        self.frame_4.setObjectName("frame_4")
-        self.verticalLayout = QtWidgets.QVBoxLayout(self.frame_4)
-        self.verticalLayout.setContentsMargins(4, -1, -1, -1)
-        self.verticalLayout.setObjectName("verticalLayout")
-        spacerItem = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
-        self.verticalLayout.addItem(spacerItem)
-        spacerItem1 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
-        self.verticalLayout.addItem(spacerItem1)
-        self.label_6 = QtWidgets.QLabel(self.frame_4)
-        self.label_6.setMinimumSize(QtCore.QSize(0, 45))
-        self.label_6.setStyleSheet("background-color: rgb(52, 167, 255);\n"
-"color: rgb(255, 255, 255);\n"
-"font: 75 15pt \"Tw Cen MT Condensed Extra Bold\";\n"
-"")
-        self.label_6.setFrameShape(QtWidgets.QFrame.Box)
-        self.label_6.setAlignment(QtCore.Qt.AlignCenter)
-        self.label_6.setObjectName("label_6")
-        self.verticalLayout.addWidget(self.label_6)
-        self.label_27 = QtWidgets.QLabel(self.frame_4)
-        self.label_27.setMinimumSize(QtCore.QSize(0, 50))
-        self.label_27.setStyleSheet("color: rgb(0, 0, 0);\n"
-"background-color: rgb(255, 255, 255);\n"
-"font: 75 12pt \"Tw Cen MT Condensed Extra Bold\";\n"
-"")
-        self.label_27.setText("")
-        self.label_27.setAlignment(QtCore.Qt.AlignCenter)
-        self.label_27.setObjectName("label_27")
-        self.verticalLayout.addWidget(self.label_27)
-        spacerItem2 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
-        self.verticalLayout.addItem(spacerItem2)
-        self.gridLayout_2.addWidget(self.frame_4, 5, 0, 1, 1)
         self.frame_6 = QtWidgets.QFrame(self.frame)
         self.frame_6.setStyleSheet("background-color: rgb(0, 85, 127);\n"
 "color: rgb(255, 85, 127);\n"
@@ -196,18 +152,6 @@ class Ui_LeaseExpiry(object):
         self.pushButton_14.setObjectName("pushButton_14")
         self.verticalLayout_4.addWidget(self.pushButton_14)
         self.gridLayout_2.addWidget(self.frame_6, 3, 0, 1, 1)
-        self.lineEdit_14 = QtWidgets.QLineEdit(self.frame)
-        self.lineEdit_14.setMinimumSize(QtCore.QSize(400, 45))
-        self.lineEdit_14.setMaximumSize(QtCore.QSize(400, 16777215))
-        self.lineEdit_14.setStyleSheet("font: 75 11pt \"Tahoma\";\n"
-"background-color: rgb(255, 255, 255);\n"
-"color: rgb(76, 76, 76);\n"
-"border:2px solid grey;\n"
-"border-radius:0;")
-        self.lineEdit_14.setAlignment(QtCore.Qt.AlignCenter)
-        self.lineEdit_14.setClearButtonEnabled(True)
-        self.lineEdit_14.setObjectName("lineEdit_14")
-        self.gridLayout_2.addWidget(self.lineEdit_14, 0, 2, 1, 1)
         self.tableWidget = QtWidgets.QTableWidget(self.frame)
         palette = QtGui.QPalette()
         brush = QtGui.QBrush(QtGui.QColor(0, 0, 0))
@@ -436,15 +380,59 @@ class Ui_LeaseExpiry(object):
         self.tableWidget.horizontalHeader().setStretchLastSection(False)
         self.tableWidget.verticalHeader().setDefaultSectionSize(29)
         self.tableWidget.verticalHeader().setMinimumSectionSize(26)
-        self.gridLayout_2.addWidget(self.tableWidget, 1, 1, 5, 3)
-        self.label = QtWidgets.QLabel(self.frame)
-        self.label.setStyleSheet("border:none;\n"
-"color: rgb(91, 91, 91);\n"
-"font: 87 16pt \"Arial Black\";\n"
-"padding-left:20;\n"
+        self.gridLayout_2.addWidget(self.tableWidget, 1, 1, 5, 2)
+        self.pushButton = QtWidgets.QPushButton(self.frame)
+        self.pushButton.setMinimumSize(QtCore.QSize(45, 45))
+        self.pushButton.setMaximumSize(QtCore.QSize(45, 45))
+        self.pushButton.setStyleSheet("QPushButton{\n"
+"background-color: rgb(255, 130, 80);\n"
+"color: rgb(255, 255, 255);\n"
+"font: 87 10pt \"Arial Black\";\n"
+"border:2px solid grey;}\n"
+"QPushButton:hover{\n"
+"background-color: rgb(0, 85, 127);\n"
+"border:2px solid white;}")
+        self.pushButton.setFlat(False)
+        self.pushButton.setObjectName("pushButton")
+        self.gridLayout_2.addWidget(self.pushButton, 0, 2, 1, 1)
+        self.frame_4 = QtWidgets.QFrame(self.frame)
+        self.frame_4.setStyleSheet("background-color: rgb(0, 85, 127);\n"
+"color: rgb(255, 85, 127);\n"
+"border:2px solig grey;\n"
+"border-radius:8;")
+        self.frame_4.setFrameShape(QtWidgets.QFrame.Box)
+        self.frame_4.setFrameShadow(QtWidgets.QFrame.Plain)
+        self.frame_4.setObjectName("frame_4")
+        self.verticalLayout = QtWidgets.QVBoxLayout(self.frame_4)
+        self.verticalLayout.setContentsMargins(4, -1, -1, -1)
+        self.verticalLayout.setObjectName("verticalLayout")
+        spacerItem = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.verticalLayout.addItem(spacerItem)
+        spacerItem1 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.verticalLayout.addItem(spacerItem1)
+        self.label_6 = QtWidgets.QLabel(self.frame_4)
+        self.label_6.setMinimumSize(QtCore.QSize(0, 45))
+        self.label_6.setStyleSheet("background-color: rgb(52, 167, 255);\n"
+"color: rgb(255, 255, 255);\n"
+"font: 75 15pt \"Tw Cen MT Condensed Extra Bold\";\n"
 "")
-        self.label.setObjectName("label")
-        self.gridLayout_2.addWidget(self.label, 0, 0, 1, 2)
+        self.label_6.setFrameShape(QtWidgets.QFrame.Box)
+        self.label_6.setAlignment(QtCore.Qt.AlignCenter)
+        self.label_6.setObjectName("label_6")
+        self.verticalLayout.addWidget(self.label_6)
+        self.label_27 = QtWidgets.QLabel(self.frame_4)
+        self.label_27.setMinimumSize(QtCore.QSize(0, 50))
+        self.label_27.setStyleSheet("color: rgb(0, 0, 0);\n"
+"background-color: rgb(255, 255, 255);\n"
+"font: 75 12pt \"Tw Cen MT Condensed Extra Bold\";\n"
+"")
+        self.label_27.setText("")
+        self.label_27.setAlignment(QtCore.Qt.AlignCenter)
+        self.label_27.setObjectName("label_27")
+        self.verticalLayout.addWidget(self.label_27)
+        spacerItem2 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.verticalLayout.addItem(spacerItem2)
+        self.gridLayout_2.addWidget(self.frame_4, 5, 0, 1, 1)
         self.frame_7 = QtWidgets.QFrame(self.frame)
         self.frame_7.setMaximumSize(QtCore.QSize(300, 16777215))
         self.frame_7.setStyleSheet("background-color: rgb(0, 85, 127);\n"
@@ -490,7 +478,6 @@ class Ui_LeaseExpiry(object):
         self.frame_3.raise_()
         self.pushButton.raise_()
         self.frame_5.raise_()
-        self.lineEdit_14.raise_()
         self.frame_6.raise_()
         self.frame_7.raise_()
         self.gridLayout.addWidget(self.frame, 0, 0, 1, 1)
@@ -503,9 +490,8 @@ class Ui_LeaseExpiry(object):
         Dialog.setWindowTitle(_translate("Dialog", "Dialog"))
         self.pushButton_8.setText(_translate("Dialog", "PRINT"))
         self.pushButton_9.setText(_translate("Dialog", "EXPORT"))
+        self.label.setText(_translate("Dialog", "LEASE EXPIRY RECORDS"))
         self.pushButton_13.setText(_translate("Dialog", "SHOW EXPIRED LEASE"))
-        self.pushButton.setText(_translate("Dialog", "X"))
-        self.label_6.setText(_translate("Dialog", "PARTIES COUNT"))
         self.comboBox.setItemText(0, _translate("Dialog", "JANUARY"))
         self.comboBox.setItemText(1, _translate("Dialog", "FEBRUARY"))
         self.comboBox.setItemText(2, _translate("Dialog", "MARCH"))
@@ -519,7 +505,6 @@ class Ui_LeaseExpiry(object):
         self.comboBox.setItemText(10, _translate("Dialog", "NOVEMBER"))
         self.comboBox.setItemText(11, _translate("Dialog", "DECEMBER"))
         self.pushButton_14.setText(_translate("Dialog", "SEARCH"))
-        self.lineEdit_14.setPlaceholderText(_translate("Dialog", "Search Here"))
         self.tableWidget.setSortingEnabled(True)
         item = self.tableWidget.horizontalHeaderItem(0)
         item.setText(_translate("Dialog", "ID"))
@@ -536,8 +521,10 @@ class Ui_LeaseExpiry(object):
         __sortingEnabled = self.tableWidget.isSortingEnabled()
         self.tableWidget.setSortingEnabled(False)
         self.tableWidget.setSortingEnabled(__sortingEnabled)
-        self.label.setText(_translate("Dialog", "LEASE EXPIRY RECORDS"))
+        self.pushButton.setText(_translate("Dialog", "X"))
+        self.label_6.setText(_translate("Dialog", "PARTIES COUNT"))
         self.pushButton_16.setText(_translate("Dialog", "SHOW UNEXPIRED LEASE"))
+
 
 if __name__ == "__main__":
     import sys

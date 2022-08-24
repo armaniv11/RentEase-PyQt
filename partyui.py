@@ -325,6 +325,16 @@ class Ui_AddParty(object):
 
         self.retranslateUi(Dialog)
         QtCore.QMetaObject.connectSlotsByName(Dialog)
+        Dialog.setTabOrder(self.lineEdit_2, self.lineEdit_4)
+        Dialog.setTabOrder(self.lineEdit_4, self.lineEdit_5)
+        Dialog.setTabOrder(self.lineEdit_5, self.lineEdit_9)
+        Dialog.setTabOrder(self.lineEdit_9, self.lineEdit_6)
+        Dialog.setTabOrder(self.lineEdit_6, self.lineEdit_3)
+        Dialog.setTabOrder(self.lineEdit_3, self.dateEdit_6)
+        Dialog.setTabOrder(self.dateEdit_6, self.pushButton)
+        Dialog.setTabOrder(self.pushButton, self.pushButton_2)
+        Dialog.setTabOrder(self.pushButton_2, self.lineEdit_14)
+        Dialog.setTabOrder(self.lineEdit_14, self.tableWidget)
 
     def retranslateUi(self, Dialog):
         _translate = QtCore.QCoreApplication.translate
@@ -339,7 +349,7 @@ class Ui_AddParty(object):
         self.label_33.setText(_translate("Dialog", "PARTY NAME"))
         self.label_38.setText(_translate("Dialog", "LEASE EXPIRY"))
         self.pushButton_2.setText(_translate("Dialog", "X"))
-        self.label.setText(_translate("Dialog", "ADD PARTY"))
+        self.label.setText(_translate("Dialog", "ADD PARTY / TENANT"))
         item = self.tableWidget.horizontalHeaderItem(0)
         item.setText(_translate("Dialog", "PARTY ID"))
         item = self.tableWidget.horizontalHeaderItem(1)

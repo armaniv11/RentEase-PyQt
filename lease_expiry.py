@@ -40,7 +40,8 @@ class LeaseExpiry(QDialog,Ui_LeaseExpiry):
         self.startYear = '2022'
         self.currentMonth = ''
         self.currentYear = ''
-        self.monthsMap = {'January':'01','February':'02','March':'03','April':'04','May':'05','June':'06','July':'07','August':'08','September':'09','October':'10','November':'11','December':'12'}
+        self.monthsMap = {'JANUARY':'01','FEBRUARY':'02','MARCH':'03','APRIL':'04','MAY':'05','JUNE':'06','JULY':'07','AUGUST':'08','SEPTEMBER':'09','OCTOBER':'10','NOVEMBER':'11','DECEMBER':'12'}
+        
         self.pushButton_13.clicked.connect(self.leaseExpiryLoad)
         self.pushButton_14.clicked.connect(self.leaseExpiryMonthLoad)
         self.pushButton_16.clicked.connect(self.leaseUnExpiryLoad)
@@ -53,7 +54,7 @@ class LeaseExpiry(QDialog,Ui_LeaseExpiry):
         # header.setSectionResizeMode(4,QtWidgets.QHeaderView.Stretch)
         # header.setSectionResizeMode(5,QtWidgets.QHeaderView.ResizeToContents)
         # header.setSectionResizeMode(7,QtWidgets.QHeaderView.ResizeToContents)
-        self.lineEdit_14.textEdited.connect(self.search)
+        # self.lineEdit_14.textEdited.connect(self.search)
         self.tableWidget.cellClicked.connect(self.cellclick)
        
         self.pushButton_8.setIcon(qtawesome.icon('mdi.printer',color='white'))

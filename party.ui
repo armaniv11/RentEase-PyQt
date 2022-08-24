@@ -512,7 +512,7 @@ padding-left:20;
 </string>
         </property>
         <property name="text">
-         <string>ADD PARTY</string>
+         <string>ADD PARTY / TENANT</string>
         </property>
         <property name="alignment">
          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
@@ -685,6 +685,19 @@ border-radius:0;</string>
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>lineEdit_2</tabstop>
+  <tabstop>lineEdit_4</tabstop>
+  <tabstop>lineEdit_5</tabstop>
+  <tabstop>lineEdit_9</tabstop>
+  <tabstop>lineEdit_6</tabstop>
+  <tabstop>lineEdit_3</tabstop>
+  <tabstop>dateEdit_6</tabstop>
+  <tabstop>pushButton</tabstop>
+  <tabstop>pushButton_2</tabstop>
+  <tabstop>lineEdit_14</tabstop>
+  <tabstop>tableWidget</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

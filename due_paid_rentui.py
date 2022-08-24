@@ -466,11 +466,11 @@ class Ui_DuePaidRent(object):
         item = self.tableWidget.horizontalHeaderItem(1)
         item.setText(_translate("Dialog", "TENANT"))
         item = self.tableWidget.horizontalHeaderItem(2)
-        item.setText(_translate("Dialog", "DUE MONTH"))
+        item.setText(_translate("Dialog", "ADDRESS"))
         item = self.tableWidget.horizontalHeaderItem(3)
         item.setText(_translate("Dialog", "RENT AMT."))
         item = self.tableWidget.horizontalHeaderItem(4)
-        item.setText(_translate("Dialog", "RENT HISTORY"))
+        item.setText(_translate("Dialog", "DUE MONTH"))
         __sortingEnabled = self.tableWidget.isSortingEnabled()
         self.tableWidget.setSortingEnabled(False)
         self.tableWidget.setSortingEnabled(__sortingEnabled)
@@ -490,7 +490,6 @@ class Ui_DuePaidRent(object):
         self.label.setText(_translate("Dialog", "DUE RENTS"))
         self.pushButton.setText(_translate("Dialog", "X"))
         self.lineEdit_14.setPlaceholderText(_translate("Dialog", "Search Here"))
-
 
 
 if __name__ == "__main__":

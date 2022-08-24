@@ -14,7 +14,7 @@ class SharedClasses:
         pmList = c.fetchall()
         conn.close()
         for k,v in pmList:
-            print(k,v)
+            # print(k,v)
             self.partyDict[k]=v
         #     if k !='CASH' and k != 'BANK':
         return self.partyDict

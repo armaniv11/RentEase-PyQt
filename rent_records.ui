@@ -1113,7 +1113,7 @@ border:none;</string>
          <number>20</number>
         </property>
         <attribute name="horizontalHeaderDefaultSectionSize">
-         <number>130</number>
+         <number>115</number>
         </attribute>
         <attribute name="horizontalHeaderHighlightSections">
          <bool>true</bool>
@@ -1227,6 +1227,17 @@ border:none;</string>
         <column>
          <property name="text">
           <string>RENT AMT.</string>
+         </property>
+         <property name="font">
+          <font>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>EDIT</string>
          </property>
          <property name="font">
           <font>

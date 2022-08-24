@@ -53,7 +53,7 @@ class AddParty(QDialog,Ui_AddParty):
         print(value)
         conn = sqlite3.connect("details.db")
         cursor = conn.cursor()
-        cursor.execute("SELECT partyid,partyname,gstin,pmobile,paddress FROM newparty where partyname like ? or paddress like ?",(value+'%',value+'%'))
+        cursor.execute("select partyid,partyname,pmobile,email,paddress,rent,leaseexpiry from newparty where partyname like ? or paddress like ?",(value+'%',value+'%'))
         result = cursor.fetchall()
         conn.close()
         self.tableshow(result)
@@ -94,7 +94,6 @@ class AddParty(QDialog,Ui_AddParty):
 
     def addparty(self):
         btntext = self.pushButton.text()
-        
         pname = self.lineEdit_2.text()
         paddress = self.lineEdit_4.text()
         # ptype = self.comboBox.currentText()
@@ -107,18 +106,19 @@ class AddParty(QDialog,Ui_AddParty):
         curdate = QDateTime.currentDateTime().toString()
         if pname == '':
             return QMessageBox.warning(self,'Alert!','Party Name cannot be empty!!')
-        conn = sqlite3.connect("details.db")
-        cursor = conn.cursor()
-        cursor.execute("select count(partyname) from newparty where partyname = ?",(pname,))
-        if cursor.fetchone()[0]>0:
-            return QMessageBox.warning(self,'Alert!','Party Name already exists!!')
+        # conn = sqlite3.connect("details.db")
+        # cursor = conn.cursor()
+        # cursor.execute("select count(partyname) from newparty where partyname = ?",(pname,))
+        # print(cursor.fetchone())
+        # if cursor.fetchone()[0]>1:
+        #     return QMessageBox.warning(self,'Alert!','Party Name already exists!!')
 
-        if btntext=='UPDATE PARTY':
+        if btntext.startswith('UPDATE'):
             try:
                 conn = sqlite3.connect("details.db")
-                conn.execute("update newparty set partyname=(?),partype=(?),paddress=(?),pmobile=(?),gstin=(?),pinitial=(?),initialtype=? where partyid=(?)",(pname,ptype,paddress,pmob,gstin,initialb,initialtype,self.partyid))
+                conn.execute("update newparty set paddress=(?),pmobile=(?),email=(?),gstin=(?),rent=(?),leaseexpiry=(?),updated=(?) where partyid=(?)",(paddress,pmob,email, gstin,rentamount,leaseExpiryDate, curdate,self.partyid))
                 conn.commit()
-                message = QMessageBox.about(self,'Success','Party Updated Successfully')
+                message = QMessageBox.about(self,'Success !!','Party Updated Successfully!')
                 self.pushButton.setText("CREATE PARTY")
                 conn.close()
                 self.clearInputs()
@@ -129,7 +129,7 @@ class AddParty(QDialog,Ui_AddParty):
         else:
             
             conn = sqlite3.connect("details.db")
-            conn.execute("insert into newparty(partyname,paddress,pmobile,email,gstin,rent,leaseexpiry, added) values(?,?,?,?,?,?,?,?)",(pname,paddress,pmob,email, gstin,rentamount,leaseExpiryDate, curdate))
+            conn.execute("insert into newparty(partyname,paddress,pmobile,email,gstin,rent,leaseexpiry,added) values(?,?,?,?,?,?,?,?)",(pname,paddress,pmob,email, gstin,rentamount,leaseExpiryDate, curdate))
             conn.commit()
             conn.close()
             QMessageBox.about(self,'SUCCESS!!','PARTY CREATED SUCCESSFULY!!')
@@ -139,6 +139,7 @@ class AddParty(QDialog,Ui_AddParty):
     
 
     def clearInputs(self):
+        self.lineEdit_2.setEnabled(True)
         self.lineEdit_2.setText('')
         self.lineEdit_3.setText('')
         self.lineEdit_4.setText('')
@@ -168,6 +169,8 @@ class AddParty(QDialog,Ui_AddParty):
 
             c.execute("select partyid,partyname,paddress,pmobile,email,gstin,rent,leaseexpiry from newparty where partyid=(?)",(ite,))
             result = c.fetchall()
+            conn.close()
+
             self.lineEdit_2.setEnabled(False)
             
             self.partyid = result[0][0]

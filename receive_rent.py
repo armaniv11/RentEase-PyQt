@@ -63,9 +63,9 @@ class ReceiveRent(QtWidgets.QDialog,Ui_ReceiveRent):
         self.pushButton_3.show()
         conn = sqlite3.connect("details.db")
         cur = conn.cursor()
-        cur.execute("SELECT newparty.partyname,cash,chqnumber,remark,chqdate,pay.added from receiverent \
-            LEFT JOIN newparty on receiverent.partyid=newparty.partyid \
-                    where pid = ?",(pid,))
+        cur.execute("SELECT newparty.partyname,rentreceive,rentMonth,chqdate,chqnumber,rentreceivedate,remark from rentledger \
+            LEFT JOIN newparty on rentledger.partyid=newparty.partyid \
+                    where id = ?",(pid,))
         result = cur.fetchone()
         print(result)
         self.label_9.setText(str(pid))
@@ -73,13 +73,23 @@ class ReceiveRent(QtWidgets.QDialog,Ui_ReceiveRent):
         # self.comboBox.setCurrentIndex(index)
         index = self.comboBox_2.findText(result[0])
         self.comboBox_2.setCurrentIndex(index)
+
         self.lineEdit_11.setText(str(result[1]))
-        self.lineEdit_10.setText(str(result[3]))
-        self.lineEdit_9.setText(str(result[4]))
-        d = QtCore.QDate.fromString(result[5],'yyyy-MM-dd')
+
+        index = self.comboBox.findText(result[2])
+        self.comboBox.setCurrentIndex(index)
+
+        self.lineEdit_10.setText(str(result[4]))
+        
+        d = QtCore.QDate.fromString(result[3],'yyyy-MM-dd')
         self.dateEdit.setDate(d)
-        d = QtCore.QDateTime.fromString(result[6],'yyyy-MM-dd hh:mm')
+
+        d = QtCore.QDateTime.fromString(result[5],'yyyy-MM-dd hh:mm')
         self.dateTimeEdit.setDateTime(d)
+
+        self.lineEdit_9.setText(str(result[6]))
+        
+        
         self.pushButton.setText('UPDATE')
         print(result)
         
@@ -95,20 +105,16 @@ class ReceiveRent(QtWidgets.QDialog,Ui_ReceiveRent):
         result = maxIdInt('id','rentledger')
         self.label_9.setText(result)
         self.comboBox_2.setCurrentIndex(-1)
-
-
+    
     def cplusch(self):
         try:
             cash = float(self.lineEdit_11.text())
         except Exception:
             cash = 0
-        # try:
-        #     cheque = float(self.lineEdit_12.text())
-        # except Exception:
-        #     cheque = 0
         cheque = 0
         total = cash + cheque
         self.lineEdit_13.setText(str(total))
+
     
     def receive(self):
         
@@ -145,31 +151,23 @@ class ReceiveRent(QtWidgets.QDialog,Ui_ReceiveRent):
         elif credit=='' or credit== '0':
             QMessageBox.warning(self,'Alert!',"Please provide amount!")
         else:
-            if self.pushButton.text().endswith('UPDATE'):
+            if self.pushButton.text().startswith('UPDATE'):
                 try:
                     conn = sqlite3.connect("details.db")
-                    conn.execute("delete from receiverent where pid = ?",(self.pid,))
-                    conn.execute("delete from ledger where (transid = ? and (transtype = 'BALANCEPAY' OR transtype='CASH' or transtype='BANK'))",(self.pid,))
+                    conn.execute("UPDATE rentledger SET partyid = ?,rentreceive = ?,rentMonth = ?,chqdate = ?,chqnumber = ?,remark = ?,rentreceivedate = ?,updated = ? where id = ?",(partyId,cash,rentMonth,chqdate,chqno,desc,rentreceivedate,datetime.now(),pid))
                     conn.commit()
                     conn.close()
                     self.close()
+                    QMessageBox.about(self,'Success!','Payment has been updated successfully!')
+                    return
                 except Exception as e:
                     print(e)
-            # try:
-            # self.deleterecord()
+                    QMessageBox.warning(self,'Error!!','There has been an error, please try again or Consult Admin!!')
+
             conn = sqlite3.connect("details.db")
-            # conn.execute("insert into pay(pid,partyid,cash,cheque,chqnumber,remark,chqdate,added,transtype) values(?,?,?,?,?,?,?,?,?)",(pid,self.partydict[party],cash,chqamount,chqno,desc,chqdate,curdate,"BALANCEPAY"))
-            # conn.execute("insert into ledger(transid,partyid,credit,chqnumber,remark,date,transtype) values(?,?,?,?,?,?,?) ",(pid,self.partydict[party],cash+chqamount,chqno,desc,curdate,'BALANCEPAY'))
-            # if cash!=0:
             conn.execute("INSERT INTO rentledger(partyid,rentreceive,rentMonth,chqdate,chqnumber,remark,rentreceivedate,added) values (?,?,?,?,?,?,?,?)",(partyId,cash,rentMonth,chqdate,chqno,desc,rentreceivedate,datetime.now()))
             conn.commit()
-            # if chqamount!=0:
-            #     conn.execute("INSERT INTO ledger(transid,partyid,debit,remark,date,transtype) values (?,?,?,?,?,?)",(pid,bankid,chqamount,desc,curdate,'BANK'))
-            #     conn.commit()
-            if self.pushButton.text().endswith('UPDATE'):
-                QMessageBox.about(self,'Success!','Payment has been updated successfully!')
-                self.close()
-                return
+                
             buttonReply = QMessageBox.question(self, 'Success!!', "Rent has been saved successfully.\nDo you want to receive another rent?", \
                 QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
             if buttonReply == QMessageBox.Yes:
@@ -179,10 +177,9 @@ class ReceiveRent(QtWidgets.QDialog,Ui_ReceiveRent):
 
                 self.lineEdit_13.clear()
 
-                c.execute("select max(id) from rentledger")
-                result = c.fetchone()
-                result = maxpid(self,result,'D0')
-                self.label_9.setText('D'+result)
+                maxId = maxIdInt('id','rentledger')
+                print(f"printing maxid {maxId}")
+                self.label_9.setText(str(maxId))
             else:
                 self.close()
         conn.close()
@@ -190,12 +187,11 @@ class ReceiveRent(QtWidgets.QDialog,Ui_ReceiveRent):
     def deleterecord(self):
         if self.pushButton.text().endswith('UPDATE'):
             print(self.pid,'update')
-            buttonReply = QMessageBox.question(self, 'CONFIRM DELETE?', "Are you sure you want to delete this Credit Record?", QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
+            buttonReply = QMessageBox.question(self, 'CONFIRM DELETE?', "Are you sure you want to delete this Record?", QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
             if buttonReply == QMessageBox.Yes:
                 try:
                     conn = sqlite3.connect("details.db")
-                    conn.execute("delete from pay where pid = ?",(self.pid,))
-                    conn.execute("delete from ledger where (transid = ? and (transtype = 'BALANCEPAY' OR transtype='CASH' or transtype='BANK'))",(self.pid,))
+                    conn.execute("delete from rentledger where id = ?",(self.pid,))
                     conn.commit()
                     conn.close()
                     self.close()

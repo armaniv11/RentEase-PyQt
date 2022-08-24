@@ -3,6 +3,7 @@
 
 import sys
 import platform
+from tracemalloc import start
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5 import QtPrintSupport
 from PyQt5.QtCore import (QCoreApplication, QPropertyAnimation, QDate, QDateTime, QMetaObject, QObject, QPoint, QRect, QSize, QTime, QUrl, Qt, QEvent)
@@ -16,6 +17,8 @@ import qtawesome
 from rent_recordsui import Ui_RentRecords
 from PyQt5.QtGui import QPainter
 from PyQt5.QtPrintSupport import QPrinter
+from icondelegate import IconDelegate
+from receive_rent import ReceiveRent
 
 from shared_classes import SharedClasses
 
@@ -34,8 +37,12 @@ class RentRecord(QDialog,Ui_RentRecords):
         effect.setColor(QColor('black'))
         self.frame.setGraphicsEffect(effect)
         self.onlyfloat = QtGui.QDoubleValidator()
-        self.siteid = ''
+        self.selectedParty = ''
         self.pushButton_13.clicked.connect(self.rentRecord)
+        self.pushButton_14.clicked.connect(self.partyRentRecord)
+        self.pushButton_12.clicked.connect(self.dateSearch)
+
+
         header = self.tableWidget.horizontalHeader()
         header.setSectionResizeMode(1,QtWidgets.QHeaderView.ResizeToContents)
         header.setSectionResizeMode(2,QtWidgets.QHeaderView.Stretch)
@@ -145,10 +152,10 @@ class RentRecord(QDialog,Ui_RentRecords):
         print(value)
         conn = sqlite3.connect("details.db")
         cursor = conn.cursor()
-        cursor.execute("SELECT ledger.transid,ledger.date,(CASE WHEN newsite.sitename is null THEN '' ELSE newsite.sitename END),\
-            newparty.partyname,transtype,material,value,transport,debit,credit from ledger LEFT JOIN newparty ON \
-                ledger.partyid = newparty.partyid LEFT JOIN newsite ON ledger.siteid = newsite.siteid where (ledger.transtype!='CASH' AND ledger.transtype!='BANK' AND \
-                    ledger.transtype!='PURCHASE TOTAL' and newparty.partyname like ?)",(value+'%',))
+        cursor.execute("SELECT id,newparty.partyname,chqnumber,chqdate,\
+            remark,rentreceivedate,rentMonth,rentreceive from rentledger LEFT JOIN newparty ON \
+                rentledger.partyid = newparty.partyid where newparty.partyname like ? or rentledger.rentMonth like ?",(value+'%',value+'%'))
+        
         result = cursor.fetchall()
         conn.close()
         self.tableshow(result)
@@ -160,9 +167,32 @@ class RentRecord(QDialog,Ui_RentRecords):
             self.comboBox.addItem(key)
         self.dateEdit_4.setDate(QtCore.QDate.currentDate())
         self.dateEdit_5.setDate(QtCore.QDate.currentDate())
-
         
         
+    def partyRentRecord(self):
+        selectedParty = self.comboBox.currentText()
+        print(SharedClasses.partyDict[selectedParty])
+        
+        conn = sqlite3.connect("details.db")
+        c = conn.cursor()
+        c.execute("SELECT id,newparty.partyname,chqnumber,chqdate,\
+            remark,rentreceivedate,rentMonth,rentreceive from rentledger LEFT JOIN newparty ON \
+                rentledger.partyid = newparty.partyid where rentledger.partyid = ? order by id desc",(SharedClasses.partyDict[selectedParty],))
+        result = c.fetchall()
+        self.tableshow(result)
+        conn.close()
+    
+    def dateSearch(self):
+        startDate = self.dateEdit_4.date().toString('yyyy-MM-dd')
+        endDate = self.dateEdit_5.date().toString('yyyy-MM-dd')
+        conn = sqlite3.connect("details.db")
+        c = conn.cursor()
+        c.execute("SELECT id,newparty.partyname,chqnumber,chqdate,\
+            remark,rentreceivedate,rentMonth,rentreceive from rentledger LEFT JOIN newparty ON \
+                rentledger.partyid = newparty.partyid where rentledger.rentreceivedate >=? and rentledger.rentreceivedate  <= ? order by id desc",(startDate,endDate))
+        result = c.fetchall()
+        self.tableshow(result)
+        conn.close()
 
 
     def rentRecord(self):
@@ -171,13 +201,10 @@ class RentRecord(QDialog,Ui_RentRecords):
         c.execute("SELECT id,newparty.partyname,chqnumber,chqdate,\
             remark,rentreceivedate,rentMonth,rentreceive from rentledger LEFT JOIN newparty ON \
                 rentledger.partyid = newparty.partyid order by id desc")
-                #  where (ledger.transtype!='CASH' AND ledger.transtype!='BANK')
         result = c.fetchall()
-        # a = [1,2,3,4,5,6,7,8,9,0,1]
-        # result.append(a)
         self.tableshow(result)
-
         conn.close()
+
     def tableshow(self,result):
         self.tableWidget.setRowCount(0)
         j = 0
@@ -188,9 +215,12 @@ class RentRecord(QDialog,Ui_RentRecords):
             self.tableWidget.insertRow(row_number)
             for column_number, data in enumerate(row_data):
                 item = QtWidgets.QTableWidgetItem(str(data))
-                if column_number==colCount -1: 
+                if column_number==colCount -2: 
                     # print(f"printing col number {column_number} {resLength}")
-                    item.setTextAlignment(Qt.AlignRight)
+                    item.setTextAlignment(Qt.AlignVCenter | Qt.AlignCenter)
+                    # item.setTextAlignment()
+
+                    
                 self.tableWidget.setItem(row_number, column_number, item)
             self.progressBar.setValue(int(j*100/len(result)))
             
@@ -203,29 +233,44 @@ class RentRecord(QDialog,Ui_RentRecords):
         header.setSectionResizeMode(4,QtWidgets.QHeaderView.Stretch)
         header.setSectionResizeMode(5,QtWidgets.QHeaderView.ResizeToContents)
         # header.setSectionResizeMode(7,QtWidgets.QHeaderView.ResizeToContents)
+
+        delegate = IconDelegate(self.tableWidget)
+        self.tableWidget.setItemDelegate(delegate)
+        for m in range(len(result)):
+            status_item = QtWidgets.QTableWidgetItem()
+            status_item.setIcon(qtawesome.icon('fa.edit',color='grey'))
+            self.tableWidget.setItem(m,colCount-1, status_item)
         credittot = debittot = running = 0
 
         for i,j in enumerate(result):
             print(i,j)
-            credittot = credittot+j[colCount-1]
+            credittot = credittot+j[colCount-2]
         self.label_27.setText('Rs. '+ str(credittot))
     
     def cellclick(self, row,column):
-        id = self.tableWidget.item(row,0).text()
-        trans = self.tableWidget.item(row,4).text()
-        print(id,trans)
-        if trans=='RECEIVE':
-            self.main = Credit()
+
+        
+        if column == self.tableWidget.columnCount() - 1:
+            id = self.tableWidget.item(row,0).text()
+            self.main = ReceiveRent()
             self.main.show()
             self.main.clickload(id)
-        elif trans=='BALANCEPAY':
-            self.main = Pay()
-            self.main.show()
-            self.main.clickload(id)
-        elif trans.startswith('PURCHASE'):
-            self.main = Purchase()
-            self.main.show()
-            self.main.clickload(id)
+            
+
+        # trans = self.tableWidget.item(row,4).text()
+        # print(id,trans)
+        # if trans=='RECEIVE':
+        #     self.main = Credit()
+        #     self.main.show()
+        #     self.main.clickload(id)
+        # elif trans=='BALANCEPAY':
+        #     self.main = Pay()
+        #     self.main.show()
+        #     self.main.clickload(id)
+        # elif trans.startswith('PURCHASE'):
+        #     self.main = Purchase()
+        #     self.main.show()
+        #     self.main.clickload(id)
 
 
     

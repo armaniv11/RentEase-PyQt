@@ -896,7 +896,7 @@ border:none;</string>
         </column>
         <column>
          <property name="text">
-          <string>DUE MONTH</string>
+          <string>ADDRESS</string>
          </property>
          <property name="font">
           <font>
@@ -918,7 +918,7 @@ border:none;</string>
         </column>
         <column>
          <property name="text">
-          <string>RENT HISTORY</string>
+          <string>DUE MONTH</string>
          </property>
          <property name="font">
           <font>

@@ -112,6 +112,20 @@ border-radius:8;</string>
         </layout>
        </widget>
       </item>
+      <item row="0" column="0" colspan="2">
+       <widget class="QLabel" name="label">
+        <property name="styleSheet">
+         <string notr="true">border:none;
+color: rgb(91, 91, 91);
+font: 87 16pt &quot;Arial Black&quot;;
+padding-left:20;
+</string>
+        </property>
+        <property name="text">
+         <string>LEASE EXPIRY RECORDS</string>
+        </property>
+       </widget>
+      </item>
       <item row="2" column="0">
        <widget class="QFrame" name="frame_3">
         <property name="maximumSize">
@@ -190,150 +204,6 @@ background-color: rgb(255, 255, 127);</string>
             <enum>QProgressBar::BottomToTop</enum>
            </property>
           </widget>
-         </item>
-        </layout>
-       </widget>
-      </item>
-      <item row="0" column="3">
-       <widget class="QPushButton" name="pushButton">
-        <property name="minimumSize">
-         <size>
-          <width>45</width>
-          <height>45</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>45</width>
-          <height>45</height>
-         </size>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">QPushButton{
-background-color: rgb(255, 130, 80);
-color: rgb(255, 255, 255);
-font: 87 10pt &quot;Arial Black&quot;;
-border:2px solid grey;}
-QPushButton:hover{
-background-color: rgb(0, 85, 127);
-border:2px solid white;}</string>
-        </property>
-        <property name="text">
-         <string>X</string>
-        </property>
-        <property name="flat">
-         <bool>false</bool>
-        </property>
-       </widget>
-      </item>
-      <item row="5" column="0">
-       <widget class="QFrame" name="frame_4">
-        <property name="styleSheet">
-         <string notr="true">background-color: rgb(0, 85, 127);
-color: rgb(255, 85, 127);
-border:2px solig grey;
-border-radius:8;</string>
-        </property>
-        <property name="frameShape">
-         <enum>QFrame::Box</enum>
-        </property>
-        <property name="frameShadow">
-         <enum>QFrame::Plain</enum>
-        </property>
-        <layout class="QVBoxLayout" name="verticalLayout">
-         <property name="leftMargin">
-          <number>4</number>
-         </property>
-         <item>
-          <spacer name="verticalSpacer_3">
-           <property name="styleSheet">
-            <string>background-color: rgb(0, 85, 127);
-color: rgb(255, 85, 127);
-border:2px solid white;</string>
-           </property>
-           <property name="orientation">
-            <enum>Qt::Vertical</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>20</width>
-             <height>40</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
-         <item>
-          <spacer name="verticalSpacer_2">
-           <property name="orientation">
-            <enum>Qt::Vertical</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>20</width>
-             <height>40</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
-         <item>
-          <widget class="QLabel" name="label_6">
-           <property name="minimumSize">
-            <size>
-             <width>0</width>
-             <height>45</height>
-            </size>
-           </property>
-           <property name="styleSheet">
-            <string notr="true">background-color: rgb(52, 167, 255);
-color: rgb(255, 255, 255);
-font: 75 15pt &quot;Tw Cen MT Condensed Extra Bold&quot;;
-</string>
-           </property>
-           <property name="frameShape">
-            <enum>QFrame::Box</enum>
-           </property>
-           <property name="text">
-            <string>PARTIES COUNT</string>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignCenter</set>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLabel" name="label_27">
-           <property name="minimumSize">
-            <size>
-             <width>0</width>
-             <height>50</height>
-            </size>
-           </property>
-           <property name="styleSheet">
-            <string notr="true">color: rgb(0, 0, 0);
-background-color: rgb(255, 255, 255);
-font: 75 12pt &quot;Tw Cen MT Condensed Extra Bold&quot;;
-</string>
-           </property>
-           <property name="text">
-            <string/>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignCenter</set>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <spacer name="verticalSpacer_4">
-           <property name="orientation">
-            <enum>Qt::Vertical</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>20</width>
-             <height>40</height>
-            </size>
-           </property>
-          </spacer>
          </item>
         </layout>
        </widget>
@@ -461,39 +331,7 @@ border:2px solid white;}
         </layout>
        </widget>
       </item>
-      <item row="0" column="2">
-       <widget class="QLineEdit" name="lineEdit_14">
-        <property name="minimumSize">
-         <size>
-          <width>400</width>
-          <height>45</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>400</width>
-          <height>16777215</height>
-         </size>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">font: 75 11pt &quot;Tahoma&quot;;
-background-color: rgb(255, 255, 255);
-color: rgb(76, 76, 76);
-border:2px solid grey;
-border-radius:0;</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignCenter</set>
-        </property>
-        <property name="placeholderText">
-         <string>Search Here</string>
-        </property>
-        <property name="clearButtonEnabled">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="1" rowspan="5" colspan="3">
+      <item row="1" column="1" rowspan="5" colspan="2">
        <widget class="QTableWidget" name="tableWidget">
         <property name="palette">
          <palette>
@@ -1142,18 +980,148 @@ border:none;</string>
         </item>
        </widget>
       </item>
-      <item row="0" column="0" colspan="2">
-       <widget class="QLabel" name="label">
+      <item row="0" column="2">
+       <widget class="QPushButton" name="pushButton">
+        <property name="minimumSize">
+         <size>
+          <width>45</width>
+          <height>45</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>45</width>
+          <height>45</height>
+         </size>
+        </property>
         <property name="styleSheet">
-         <string notr="true">border:none;
-color: rgb(91, 91, 91);
-font: 87 16pt &quot;Arial Black&quot;;
-padding-left:20;
-</string>
+         <string notr="true">QPushButton{
+background-color: rgb(255, 130, 80);
+color: rgb(255, 255, 255);
+font: 87 10pt &quot;Arial Black&quot;;
+border:2px solid grey;}
+QPushButton:hover{
+background-color: rgb(0, 85, 127);
+border:2px solid white;}</string>
         </property>
         <property name="text">
-         <string>LEASE EXPIRY RECORDS</string>
+         <string>X</string>
         </property>
+        <property name="flat">
+         <bool>false</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="0">
+       <widget class="QFrame" name="frame_4">
+        <property name="styleSheet">
+         <string notr="true">background-color: rgb(0, 85, 127);
+color: rgb(255, 85, 127);
+border:2px solig grey;
+border-radius:8;</string>
+        </property>
+        <property name="frameShape">
+         <enum>QFrame::Box</enum>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Plain</enum>
+        </property>
+        <layout class="QVBoxLayout" name="verticalLayout">
+         <property name="leftMargin">
+          <number>4</number>
+         </property>
+         <item>
+          <spacer name="verticalSpacer_3">
+           <property name="styleSheet">
+            <string>background-color: rgb(0, 85, 127);
+color: rgb(255, 85, 127);
+border:2px solid white;</string>
+           </property>
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>20</width>
+             <height>40</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <spacer name="verticalSpacer_2">
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>20</width>
+             <height>40</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="QLabel" name="label_6">
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>45</height>
+            </size>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">background-color: rgb(52, 167, 255);
+color: rgb(255, 255, 255);
+font: 75 15pt &quot;Tw Cen MT Condensed Extra Bold&quot;;
+</string>
+           </property>
+           <property name="frameShape">
+            <enum>QFrame::Box</enum>
+           </property>
+           <property name="text">
+            <string>PARTIES COUNT</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="label_27">
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>50</height>
+            </size>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">color: rgb(0, 0, 0);
+background-color: rgb(255, 255, 255);
+font: 75 12pt &quot;Tw Cen MT Condensed Extra Bold&quot;;
+</string>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="verticalSpacer_4">
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>20</width>
+             <height>40</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
        </widget>
       </item>
       <item row="4" column="0">
@@ -1245,7 +1213,6 @@ background-color: rgb(255, 255, 127);</string>
      <zorder>frame_3</zorder>
      <zorder>pushButton</zorder>
      <zorder>frame_5</zorder>
-     <zorder>lineEdit_14</zorder>
      <zorder>frame_6</zorder>
      <zorder>frame_7</zorder>
     </widget>
